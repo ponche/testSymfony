@@ -28,6 +28,22 @@ class TaskController extends AbstractController
             ->add('save', SubmitType::class, ['label' => 'Create Task'])
             ->getForm();
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $task = $form->getData(); 
+
+             // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($task);
+            // $entityManager->flush();
+
+            return $this->redirectToRoute('index'); 
+        }
+
         return $this->render('task/new.html.twig', [
             'form' => $form->createView(),
         ]);
